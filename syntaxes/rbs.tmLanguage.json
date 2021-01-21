@@ -285,7 +285,7 @@
           "name": "keyword.control.def.rbs"
         },
         "2": {
-          "name": "entity.name.function.ruby"
+          "name": "entity.name.function.rbs"
         }
       },
       "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?"
