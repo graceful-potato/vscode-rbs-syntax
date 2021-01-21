@@ -1,200 +1,217 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "rbs",
-	"patterns": [
-		{
-			"begin": "(?<!^\\.|[^.]\\.|::)\\b(class)\\b(?![?!])",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.class.begin.rbs"
-				}
-			},
-			"end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
-			"endCaptures": {
-				"1": {
-					"name": "keyword.control.end.rbs"
-				},
-				"2": {
-					"name": "keyword.control.class.end.rbs"
-				}
-			},
-			"name": "meta.class.rbs",
-			"patterns": [
-				{
-					"match": "\\G\\s+([A-Z][\\w:]*)(?:\\s*(<)\\s*([A-Z][\\w:]*))?",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.class.rbs",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						},
-						"2": {
-							"name": "punctuation.separator.inheritance.rbs"
-						},
-						"3": {
-							"name": "entity.other.inherited-class.rbs",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						},
-						"4": {
-							"name": "punctuation.accessor.singleton.rbs"
-						},
-						"5": {
-							"name": "variable.other.object.rbs",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						}
-					}
-				},
-				{
-					"include": "$self"
-				}
-			]
-		},
-		{
-			"begin": "(?<!^\\.|[^.]\\.|::)\\b(module)\\b(?![?!])",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.module.begin.rbs"
-				}
-			},
-			"end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
-			"endCaptures": {
-				"1": {
-					"name": "keyword.control.end.rbs"
-				},
-				"2": {
-					"name": "keyword.control.module.end.rbs"
-				}
-			},
-			"name": "meta.module.rbs",
-			"patterns": [
-				{
-					"match": "\\G\\s+([A-Z][\\w:]*)",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.module.rbs",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						}
-					}
-				},
-				{
-					"include": "$self"
-				}
-			]
-		},
-		{
-			"begin": "(?<!^\\.|[^.]\\.|::)\\b(interface)\\b(?![?!])",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.interface.begin.rbs"
-				}
-			},
-			"end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
-			"endCaptures": {
-				"1": {
-					"name": "keyword.control.end.rbs"
-				},
-				"2": {
-					"name": "keyword.control.interface.end.rbs"
-				}
-			},
-			"name": "meta.interface.rbs",
-			"patterns": [
-				{
-					"match": "\\G\\s+([A-Z][\\w:]*)",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.interface.rbs",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						}
-					}
-				},
-				{
-					"include": "$self"
-				}
-			]
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "punctuation.separator.namespace.rbs"
-				}
-			},
-			"comment": "Mark as namespace separator if double colons followed by capital letter",
-			"match": "(::)\\s*(?=[A-Z])"
-		},
-		{
-			"match": "\\b_?[A-Z]\\w*\\b",
-			"name": "variable.other.constant.rbs"
-		},
-		{
-			"match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
-			"name": "constant.numeric.rbs"
-		},
-		{
-			"match": "\\b(true|false)\\b(?![?!])",
-			"name": "constant.language.boolean.rbs"
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "punctuation.definition.constant.rbs"
-				}
-			},
-			"comment": "symbols",
-			"match": "(?x)\n(?<!:):\n(?>\n  [$a-zA-Z_]\\w*(?>[?!]|=(?![>=]))?\n  |\n  ===?|<=>|>[>=]?|<[<=]?|[%&`/\\|]|\\*\\*?|=?~|[-+]@?|\\[]=?\n  |\n  @@?[a-zA-Z_]\\w*\n)",
-			"name": "constant.language.symbol.rbs"
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "punctuation.definition.variable.rbs"
-				}
-			},
-			"match": "(@)[a-zA-Z_]\\w*",
-			"name": "variable.other.readwrite.instance.rbs"
-		},
-		{
-			"begin": "(^[ \\t]+)?(?=#)",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.whitespace.comment.leading.rbs"
-				}
-			},
-			"end": "(?!\\G)",
-			"patterns": [
-				{
-					"begin": "#",
-					"beginCaptures": {
-						"0": {
-							"name": "punctuation.definition.comment.rbs"
-						}
-					},
-					"end": "\\n",
-					"name": "comment.line.number-sign.rbs"
-				}
-			]
-		}
-	],
-	"repository": {
-	},
-	"scopeName": "source.rbs"
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "rbs",
+  "patterns": [
+    {
+      "begin": "(?<!^\\.|[^.]\\.|::)\\b(class)\\b(?![?!])",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.class.begin.rbs"
+        }
+      },
+      "end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end.rbs"
+        },
+        "2": {
+          "name": "keyword.control.class.end.rbs"
+        }
+      },
+      "name": "meta.class.rbs",
+      "patterns": [
+        {
+          "match": "\\G\\s+((?:(?:::)?[A-Z][\\w]*)+)(?:\\s*(<)\\s*((?:(?:::)?[A-Z][\\w]*)+))?",
+          "captures": {
+            "1": {
+              "name": "entity.name.type.class.rbs",
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            },
+            "2": {
+              "name": "punctuation.separator.inheritance.rbs"
+            },
+            "3": {
+              "name": "entity.other.inherited-class.rbs",
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            },
+            "4": {
+              "name": "punctuation.accessor.singleton.rbs"
+            },
+            "5": {
+              "name": "variable.other.object.rbs",
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    {
+      "begin": "(?<!^\\.|[^.]\\.|::)\\b(module)\\b(?![?!])",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.module.begin.rbs"
+        }
+      },
+      "end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end.rbs"
+        },
+        "2": {
+          "name": "keyword.control.module.end.rbs"
+        }
+      },
+      "name": "meta.module.rbs",
+      "patterns": [
+        {
+          "match": "\\G\\s+((?:::)?[A-Z][\\w:]*)",
+          "captures": {
+            "1": {
+              "name": "entity.name.type.module.rbs",
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    {
+      "begin": "(?<!^\\.|[^.]\\.|::)\\b(interface)\\b(?![?!])",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.interface.begin.rbs"
+        }
+      },
+      "end": "(?<!\\.|::)\\b((end))\\b(?![?!:])",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.end.rbs"
+        },
+        "2": {
+          "name": "keyword.control.interface.end.rbs"
+        }
+      },
+      "name": "meta.interface.rbs",
+      "patterns": [
+        {
+          "match": "\\G\\s+((?:::)?_?[A-Z][\\w:]*)",
+          "captures": {
+            "1": {
+              "name": "entity.name.type.interface.rbs",
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "include": "$self"
+        }
+      ]
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "punctuation.separator.namespace.rbs"
+        }
+      },
+      "comment": "Mark as namespace separator if double colons followed by capital letter",
+      "match": "(::)\\s*(?=_?[A-Z])"
+    },
+    {
+      "match": "\\b_?[A-Z]\\w*\\b",
+      "name": "variable.other.constant.rbs"
+    },
+    {
+      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
+      "name": "constant.numeric.rbs"
+    },
+    {
+      "match": "\\b(true|false)\\b(?![?!])",
+      "name": "constant.language.boolean.rbs"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.constant.rbs"
+        }
+      },
+      "comment": "symbols",
+      "match": "(?x)\n(?<!:):\n(?>\n  [$a-zA-Z_]\\w*(?>[?!]|=(?![>=]))?\n  |\n  ===?|<=>|>[>=]?|<[<=]?|[%&`/\\|]|\\*\\*?|=?~|[-+]@?|\\[]=?\n  |\n  @@?[a-zA-Z_]\\w*\n)",
+      "name": "constant.language.symbol.rbs"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.variable.rbs"
+        }
+      },
+      "match": "(@)[a-zA-Z_]\\w*",
+      "name": "variable.other.readwrite.instance.rbs"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.variable.rbs"
+        }
+      },
+      "match": "(\\$)[a-zA-Z_]\\w*",
+      "name": "variable.other.readwrite.global.rbs"
+    },
+    {
+      "match": "->",
+      "name": "keyword.operator.arrow.rbs"
+    },
+    {
+      "match": "(?<!:):(?!:)",
+      "name": "keyword.operator.colon.rbs"
+    },
+    {
+      "begin": "(^[ \\t]+)?(?=#)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.rbs"
+        }
+      },
+      "end": "(?!\\G)",
+      "patterns": [
+        {
+          "begin": "#",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.rbs"
+            }
+          },
+          "end": "\\n",
+          "name": "comment.line.number-sign.rbs"
+        }
+      ]
+    }
+  ],
+  "repository": {
+  },
+  "scopeName": "source.rbs"
 }
