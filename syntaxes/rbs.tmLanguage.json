@@ -150,6 +150,10 @@
       "name": "constant.numeric.rbs"
     },
     {
+      "match": "\\b(true|false)\\b(?![?!])",
+      "name": "constant.language.boolean.rbs"
+    },
+    {
       "captures": {
         "1": {
           "name": "punctuation.definition.constant.rbs"
@@ -196,6 +200,10 @@
     {
       "match": "\\?",
       "name": "keyword.operator.optional.rbs"
+    },
+    {
+      "match": "=",
+      "name": "keyword.operator.assignment.rbs"
     },
     {
       "begin": "\\(",
@@ -255,10 +263,6 @@
       ]
     },
     {
-      "match": "\\b(self)(?=\\.\\w*)",
-      "name": "variable.language.self.rbs"
-    },
-    {
       "match": "\\b(self|instance|bool|untyped|nil|top|bot|void|fail|boolish|true|false)\\b(?![?!])",
       "name": "storage.type.rbs"
     },
@@ -267,9 +271,22 @@
       "name": "storage.modifier.rbs"
     },
     {
-      "comment": " everything being a method but having a special function is a..",
-      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|alias)\\b(?![?!])",
-      "name": "keyword.other.rbs"
+      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|type)\\b(?![?!])",
+      "name": "keyword.other.$1.rbs"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "keyword.other.alias.rbs"
+        },
+        "2": {
+          "name": "entity.name.function.rbs"
+        },
+        "3": {
+          "name": "entity.name.function.rbs"
+        }
+      },
+      "match": "\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?"
     },
     {
       "match": "(?<!\\.)\\b(in|out|unchecked)\\b(?![?!])",
