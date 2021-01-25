@@ -4,7 +4,7 @@
     "displayName": "RBS Syntax Highlighting",
     "description": "Syntax highlighting for .rbs",
     "icon": "images/icon.png",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "repository": {
         "type": "git",
         "url": "https://github.com/graceful-potato/vscode-rbs-syntax"
