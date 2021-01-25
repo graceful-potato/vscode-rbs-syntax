@@ -41,17 +41,6 @@
                   "include": "$self"
                 }
               ]
-            },
-            "4": {
-              "name": "punctuation.accessor.singleton.rbs"
-            },
-            "5": {
-              "name": "variable.other.object.rbs",
-              "patterns": [
-                {
-                  "include": "$self"
-                }
-              ]
             }
           }
         },
@@ -133,79 +122,69 @@
       ]
     },
     {
+      "include": "#literals"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    },
+    {
+      "include": "#parens"
+    },
+    {
+      "include": "#braces"
+    },
+    {
+      "include": "#brackets"
+    },
+    {
+      "match": "\\b(self|instance|bool|untyped|nil|top|bot|void|fail|boolish)\\b",
+      "name": "storage.type.rbs"
+    },
+    {
+      "match": "\\b(public|private)\\b(?![?!])",
+      "name": "storage.modifier.rbs"
+    },
+    {
+      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|type)\\b(?![?!])",
+      "name": "keyword.other.$1.rbs"
+    },
+    {
+      "match": "\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?",
       "captures": {
         "1": {
-          "name": "punctuation.separator.namespace.rbs"
+          "name": "keyword.other.alias.rbs"
+        },
+        "2": {
+          "name": "entity.name.function.rbs"
+        },
+        "3": {
+          "name": "entity.name.function.rbs"
         }
-      },
-      "comment": "Mark as namespace separator if double colons followed by capital letter",
-      "match": "(::)\\s*(?=_?[A-Z])"
+      }
     },
     {
-      "match": "\\b_?[A-Z]\\w*\\b",
-      "name": "variable.other.constant.rbs"
-    },
-    {
-      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
-      "name": "constant.numeric.rbs"
-    },
-    {
-      "match": "\\b(true|false)\\b(?![?!])",
-      "name": "constant.language.boolean.rbs"
-    },
-    {
+      "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?",
       "captures": {
         "1": {
-          "name": "punctuation.definition.constant.rbs"
+          "name": "keyword.control.def.rbs"
+        },
+        "2": {
+          "name": "entity.name.function.rbs"
         }
-      },
-      "comment": "symbols",
-      "match": "(?x)\n(?<!:):\n(?>\n  [$a-zA-Z_]\\w*(?>[?!]|=(?![>=]))?\n  |\n  ===?|<=>|>[>=]?|<[<=]?|[%&`/\\|]|\\*\\*?|=?~|[-+]@?|\\[]=?\n  |\n  @@?[a-zA-Z_]\\w*\n)",
-      "name": "constant.language.symbol.rbs"
+      }
     },
     {
-      "captures": {
-        "1": {
-          "name": "punctuation.definition.variable.rbs"
-        }
-      },
-      "match": "(@)[a-zA-Z_]\\w*",
-      "name": "variable.other.readwrite.instance.rbs"
-    },
-    {
-      "captures": {
-        "1": {
-          "name": "punctuation.definition.variable.rbs"
-        }
-      },
-      "match": "(\\$)[a-zA-Z_]\\w*",
-      "name": "variable.other.readwrite.global.rbs"
-    },
-    {
-      "match": "->",
-      "name": "keyword.operator.arrow.rbs"
-    },
-    {
-      "match": "(?<!:):(?!:)",
-      "name": "keyword.operator.colon.rbs"
-    },
-    {
-      "match": "\\|",
-      "name": "keyword.operator.union.rbs"
-    },
-    {
-      "match": "&",
-      "name": "keyword.operator.intersectoin.rbs"
-    },
-    {
-      "match": "\\?",
-      "name": "keyword.operator.optional.rbs"
-    },
-    {
-      "match": "=",
-      "name": "keyword.operator.assignment.rbs"
-    },
-    {
+      "include": "#comment"
+    }
+  ],
+  "repository": {
+    "parens": {
       "begin": "\\(",
       "beginCaptures": {
         "0": {
@@ -220,11 +199,55 @@
       },
       "patterns": [
         {
+          "begin": "(?=[A-Za-z_*?(\\[])",
+          "end": "(?=[,)])",
+          "patterns": [
+            {
+              "include": "#parameters"
+            },
+            {
+              "include": "$self"
+            }
+          ]
+        },
+        {
           "include": "$self"
         }
       ]
     },
-    {
+    "brackets": {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.brackets.begin.rbs"
+        }
+      },
+      "end": "]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.brackets.end.rbs"
+        }
+      },
+      "patterns": [
+        {
+          "match": "(?<!\\.)\\b(in|out|unchecked)\\b(?![?!])",
+          "name": "keyword.control.$1.rbs"
+        },
+        {
+          "include": "#type_or_type-alias"
+        },
+        {
+          "include": "#operators"
+        },
+        {
+          "include": "#punctuation"
+        },
+        {
+          "include": "#brackets"
+        }
+      ]
+    },
+    "braces": {
       "begin": "{",
       "beginCaptures": {
         "0": {
@@ -243,71 +266,116 @@
         }
       ]
     },
-    {
-      "begin": "\\[",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.section.brackets.begin.rbs"
-        }
-      },
-      "end": "]",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.section.brackets.end.rbs"
-        }
-      },
+    "variables": {
       "patterns": [
         {
-          "include": "$self"
+          "include": "#instance_var"
+        },
+        {
+          "include": "#global_var"
+        },
+        {
+          "include": "#constant"
         }
       ]
     },
-    {
-      "match": "\\b(self|instance|bool|untyped|nil|top|bot|void|fail|boolish|true|false)\\b(?![?!])",
-      "name": "storage.type.rbs"
-    },
-    {
-      "match": "\\b(public|private)\\b(?![?!])",
-      "name": "storage.modifier.rbs"
-    },
-    {
-      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|type)\\b(?![?!])",
-      "name": "keyword.other.$1.rbs"
-    },
-    {
+    "instance_var": {
       "captures": {
         "1": {
-          "name": "keyword.other.alias.rbs"
-        },
-        "2": {
-          "name": "entity.name.function.rbs"
-        },
-        "3": {
-          "name": "entity.name.function.rbs"
+          "name": "punctuation.definition.variable.rbs"
         }
       },
-      "match": "\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?"
+      "match": "(@)[a-zA-Z_]\\w*",
+      "name": "variable.other.readwrite.instance.rbs"
     },
-    {
-      "match": "(?<!\\.)\\b(in|out|unchecked)\\b(?![?!])",
-      "name": "keyword.control.$1.rbs"
-    },
-    {
-      "match": "\\*\\*?",
-      "name": "storage.type.variable.rbs"
-    },
-    {
+    "global_var": {
       "captures": {
         "1": {
-          "name": "keyword.control.def.rbs"
-        },
-        "2": {
-          "name": "entity.name.function.rbs"
+          "name": "punctuation.definition.variable.rbs"
         }
       },
-      "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?"
+      "match": "(\\$)[a-zA-Z_]\\w*",
+      "name": "variable.other.readwrite.global.rbs"
     },
-    {
+    "constant": {
+      "match": "\\b_?[A-Z]\\w*\\b",
+      "name": "variable.other.constant.rbs"
+    },
+    "literals": {
+      "patterns": [
+        {
+          "include": "#symbol"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#boolean"
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "symbol": {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.constant.rbs"
+        }
+      },
+      "comment": "symbols",
+      "match": "(?x)\n(?<!:):\n(?>\n  [$a-zA-Z_]\\w*(?>[?!]|=(?![>=]))?\n  |\n  ===?|<=>|>[>=]?|<[<=]?|[%&`/\\|]|\\*\\*?|=?~|[-+]@?|\\[]=?\n  |\n  @@?[a-zA-Z_]\\w*\n)",
+      "name": "constant.language.symbol.rbs"
+    },
+    "number": {
+      "match": "(?x)\n\\b\n(\n  [\\d](?>_?\\d)*                             # 100_000\n  (\\.(?![^[:space:][:digit:]])(?>_?\\d)*)?   # fractional part\n  ([eE][-+]?\\d(?>_?\\d)*)?                   # 1.23e-4\n  |\n  0\n  (?:\n    [xX]\\h(?>_?\\h)*|\n    [oO]?[0-7](?>_?[0-7])*|\n    [bB][01](?>_?[01])*|\n    [dD]\\d(?>_?\\d)*\n  )                                           # A base indicator can only be used with an integer\n)\\b",
+      "name": "constant.numeric.rbs"
+    },
+    "boolean": {
+      "match": "\\b(true|false)\\b(?![?!])",
+      "name": "constant.language.boolean.rbs"
+    },
+    "string": {
+      "patterns": [
+        {
+          "include": "#string_single_quoted"
+        },
+        {
+          "include": "#string_double_quoted"
+        }
+      ]
+    },
+    "string_single_quoted": {
+      "begin": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.rbs"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.rbs"
+        }
+      },
+      "name": "string.quoted.single.rbs"
+    },
+    "string_double_quoted": {
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.rbs"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.rbs"
+        }
+      },
+      "name": "string.quoted.double.interpolated.rbs"
+    },
+    "comment": {
       "begin": "(^[ \\t]+)?(?=#)",
       "beginCaptures": {
         "1": {
@@ -327,9 +395,175 @@
           "name": "comment.line.number-sign.rbs"
         }
       ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "include": "#union_operator"
+        },
+        {
+          "include": "#intersectoin_operator"
+        },
+        {
+          "include": "#optional_operator"
+        },
+        {
+          "include": "#rest_operator"
+        },
+        {
+          "include": "#arrow_operator"
+        },
+        {
+          "include": "#colon_operator"
+        },
+        {
+          "include": "#assignment_operator"
+        }
+      ]
+    },
+    "union_operator": {
+      "match": "\\|",
+      "name": "keyword.operator.union.rbs"
+    },
+    "intersectoin_operator": {
+      "match": "&",
+      "name": "keyword.operator.intersectoin.rbs"
+    },
+    "optional_operator": {
+      "match": "\\?",
+      "name": "keyword.operator.optional.rbs"
+    },
+    "rest_operator": {
+      "match": "\\*\\*?",
+      "name": "keyword.operator.rest.rbs"
+    },
+    "arrow_operator": {
+      "match": "->",
+      "name": "keyword.operator.arrow.rbs"
+    },
+    "colon_operator": {
+      "match": "(?<!:):(?!:)",
+      "name": "keyword.operator.colon.rbs"
+    },
+    "assignment_operator": {
+      "match": "=",
+      "name": "keyword.operator.assignment.rbs"
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "include": "#namespace_separator"
+        },
+        {
+          "include": "#comma_separator"
+        }
+      ]
+    },
+    "namespace_separator": {
+      "match": "(::)\\s*(?=[A-Za-z_])",
+      "captures": {
+        "1": {
+          "name": "punctuation.separator.namespace.rbs"
+        }
+      }
+    },
+    "comma_separator": {
+      "match": ",",
+      "name": "punctuation.separator.comma.rbs"
+    },
+    "type_or_type-alias": {
+      "match": "\\b[A-Za-z_]\\w*\\b",
+      "name": "storage.type.rbs"
+    },
+    "parameters": {
+      "patterns": [
+        {
+          "include": "#keyword_parameter"
+        },
+        {
+          "include": "#parameter_type"
+        },
+        {
+          "include": "#parameter_name"
+        }
+      ]
+    },
+    "keyword_parameter": {
+      "match": "(\\*\\*?|\\?)?([_a-zA-Z]\\w*[?!]?(:))",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#optional_operator"
+            },
+            {
+              "include": "#rest_operator"
+            }
+          ]
+        },
+        "2": {
+          "name": "variable.arguments.rbs"
+        },
+        "3": {
+          "name": "punctuation.definition.constant.rbs"
+        }
+      }
+    },
+    "parameter_type": {
+      "match": "(?<![)\\]?\\w])\\s*(\\*\\*?|\\?)?((?:::)?\\b[A-Za-z_][\\w:]*)(\\?)?",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#optional_operator"
+            },
+            {
+              "include": "#rest_operator"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#namespace_separator"
+            },
+            {
+              "include": "#type_or_type-alias"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#optional_operator"
+            }
+          ]
+        }
+      }
+    },
+    "parameter_name": {
+      "match": "(?<=[)\\]?\\w])\\s+([a-z_]\\w*)",
+      "captures": {
+        "1": {
+          "name": "variable.arguments.rbs"
+        }
+      }
+    },
+    "return_type": {
+      "match": "(?<=->)\\s*(\\b(?:::)?_?[A-Za-z_][\\w:]*\\b)\\??",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#namespace_separator"
+            },
+            {
+              "include": "#type_or_type-alias"
+            }
+          ]
+        }
+      }
     }
-  ],
-  "repository": {
   },
   "scopeName": "source.rbs"
 }
