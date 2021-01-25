@@ -158,7 +158,7 @@
       "name": "keyword.other.$1.rbs"
     },
     {
-      "include": "#attribute"
+      "include": "#attributes"
     },
     {
       "include": "#type"
@@ -583,18 +583,54 @@
       }
     },
     "attributes": {
-      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))",
+      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?",
+      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?(?:\\s*(:))?(.+?(?=#|$))?",
       "captures": {
         "1": {
           "name": "keyword.other.$1.rbs"
         },
         "2": {
           "name": "variable.other.member.rbs"
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#colon_operator"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "include": "#union_operator"
+            },
+            {
+              "include": "#intersectoin_operator"
+            },
+            {
+              "include": "#parens"
+            },
+            {
+              "include": "#brackets"
+            },
+            {
+              "include": "#braces"
+            },
+            {
+              "include": "#literals"
+            },
+            {
+              "include": "#type_or_type-alias"
+            },
+            {
+              "include": "#namespace_separator"
+            }
+          ]
         }
       }
     },
     "type": {
-      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(.+?(?=#|$))",
+      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(.+?(?=#|$))?",
       "captures": {
         "1": {
           "name": "keyword.other.type.rbs"
