@@ -583,7 +583,6 @@
       }
     },
     "attributes": {
-      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?",
       "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?(?:\\s*(:))?(.+?(?=#|$))?",
       "captures": {
         "1": {
