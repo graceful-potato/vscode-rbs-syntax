@@ -143,6 +143,9 @@
       "include": "#brackets"
     },
     {
+      "include": "#return_type"
+    },
+    {
       "match": "\\b(self|instance|bool|untyped|nil|top|bot|void|fail|boolish)\\b",
       "name": "storage.type.rbs"
     },
@@ -151,7 +154,7 @@
       "name": "storage.modifier.rbs"
     },
     {
-      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|type)\\b(?![?!])",
+      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|singleton|type)\\b(?![?!])",
       "name": "keyword.other.$1.rbs"
     },
     {
@@ -234,6 +237,9 @@
           "name": "keyword.control.$1.rbs"
         },
         {
+          "include": "#literals"
+        },
+        {
           "include": "#type_or_type-alias"
         },
         {
@@ -244,6 +250,12 @@
         },
         {
           "include": "#brackets"
+        },
+        {
+          "include": "#parens"
+        },
+        {
+          "include": "#braces"
         }
       ]
     },
@@ -261,6 +273,12 @@
         }
       },
       "patterns": [
+        {
+          "include": "#keyword_parameter"
+        },
+        {
+          "include": "#parameter_type"
+        },
         {
           "include": "$self"
         }
@@ -323,7 +341,6 @@
           "name": "punctuation.definition.constant.rbs"
         }
       },
-      "comment": "symbols",
       "match": "(?x)\n(?<!:):\n(?>\n  [$a-zA-Z_]\\w*(?>[?!]|=(?![>=]))?\n  |\n  ===?|<=>|>[>=]?|<[<=]?|[%&`/\\|]|\\*\\*?|=?~|[-+]@?|\\[]=?\n  |\n  @@?[a-zA-Z_]\\w*\n)",
       "name": "constant.language.symbol.rbs"
     },
@@ -489,7 +506,7 @@
       ]
     },
     "keyword_parameter": {
-      "match": "(\\*\\*?|\\?)?([_a-zA-Z]\\w*[?!]?(:))",
+      "match": "(?<=^|\\s|,|\\(|{)\\s*(\\*\\*?|\\?)?([_a-zA-Z]\\w*[?!]?(:))",
       "captures": {
         "1": {
           "patterns": [
@@ -525,6 +542,9 @@
         "2": {
           "patterns": [
             {
+              "include": "#literals"
+            },
+            {
               "include": "#namespace_separator"
             },
             {
@@ -550,15 +570,18 @@
       }
     },
     "return_type": {
-      "match": "(?<=->)\\s*(\\b(?:::)?_?[A-Za-z_][\\w:]*\\b)\\??",
+      "match": "(?<=->)\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b)\\??",
       "captures": {
         "1": {
           "patterns": [
             {
-              "include": "#namespace_separator"
+              "include": "#literals"
             },
             {
               "include": "#type_or_type-alias"
+            },
+            {
+              "include": "#namespace_separator"
             }
           ]
         }
