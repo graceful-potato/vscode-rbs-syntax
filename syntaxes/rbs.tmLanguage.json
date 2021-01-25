@@ -6,7 +6,7 @@
       "begin": "(?<!^\\.|[^.]\\.|::)\\b(class)\\b(?![?!])",
       "beginCaptures": {
         "1": {
-          "name": "keyword.control.class.begin.rbs"
+          "name": "keyword.declaration.class.begin.rbs"
         }
       },
       "end": "(?<!\\.|::|`)\\b((end))\\b(?![?!:])",
@@ -15,7 +15,7 @@
           "name": "keyword.control.end.rbs"
         },
         "2": {
-          "name": "keyword.control.class.end.rbs"
+          "name": "keyword.declaration.class.end.rbs"
         }
       },
       "name": "meta.class.rbs",
@@ -53,7 +53,7 @@
       "begin": "(?<!^\\.|[^.]\\.|::)\\b(module)\\b(?![?!])",
       "beginCaptures": {
         "1": {
-          "name": "keyword.control.module.begin.rbs"
+          "name": "keyword.declaration.module.begin.rbs"
         }
       },
       "end": "(?<!\\.|::|`)\\b((end))\\b(?![?!:])",
@@ -62,7 +62,7 @@
           "name": "keyword.control.end.rbs"
         },
         "2": {
-          "name": "keyword.control.module.end.rbs"
+          "name": "keyword.declaration.module.end.rbs"
         }
       },
       "name": "meta.module.rbs",
@@ -89,7 +89,7 @@
       "begin": "(?<!^\\.|[^.]\\.|::)\\b(interface)\\b(?![?!])",
       "beginCaptures": {
         "1": {
-          "name": "keyword.control.interface.begin.rbs"
+          "name": "keyword.declaration.interface.begin.rbs"
         }
       },
       "end": "(?<!\\.|::|`)\\b((end))\\b(?![?!:])",
@@ -98,7 +98,7 @@
           "name": "keyword.control.end.rbs"
         },
         "2": {
-          "name": "keyword.control.interface.end.rbs"
+          "name": "keyword.declaration.interface.end.rbs"
         }
       },
       "name": "meta.interface.rbs",
@@ -154,28 +154,23 @@
       "name": "storage.modifier.rbs"
     },
     {
-      "match": "\\b(include|extend|prepend|attr_reader|attr_writer|attr_accessor|singleton|type)\\b(?![?!])",
+      "match": "\\b(include|extend|prepend|singleton)\\b(?![?!])",
       "name": "keyword.other.$1.rbs"
     },
     {
-      "match": "\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?",
-      "captures": {
-        "1": {
-          "name": "keyword.other.alias.rbs"
-        },
-        "2": {
-          "name": "entity.name.function.rbs"
-        },
-        "3": {
-          "name": "entity.name.function.rbs"
-        }
-      }
+      "include": "#attribute"
+    },
+    {
+      "include": "#type"
+    },
+    {
+      "include": "#alias"
     },
     {
       "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?",
       "captures": {
         "1": {
-          "name": "keyword.control.def.rbs"
+          "name": "storage.type.function.rbs"
         },
         "2": {
           "name": "entity.name.function.rbs"
@@ -584,6 +579,80 @@
               "include": "#namespace_separator"
             }
           ]
+        }
+      }
+    },
+    "attributes": {
+      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))",
+      "captures": {
+        "1": {
+          "name": "keyword.other.$1.rbs"
+        },
+        "2": {
+          "name": "variable.other.member.rbs"
+        }
+      }
+    },
+    "type": {
+      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(.+?(?=#|$))",
+      "captures": {
+        "1": {
+          "name": "keyword.other.type.rbs"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#type_or_type-alias"
+            },
+            {
+              "include": "#namespace_separator"
+            }
+          ]
+        },
+        "3": {
+          "name": "keyword.operator.assignment.rbs"
+        },
+        "4": {
+          "patterns": [
+            {
+              "include": "#union_operator"
+            },
+            {
+              "include": "#intersectoin_operator"
+            },
+            {
+              "include": "#parens"
+            },
+            {
+              "include": "#brackets"
+            },
+            {
+              "include": "#braces"
+            },
+            {
+              "include": "#literals"
+            },
+            {
+              "include": "#type_or_type-alias"
+            },
+            {
+              "include": "#namespace_separator"
+            }
+          ]
+        }
+      }
+    },
+    "alias": {
+      "match": "^\\s*\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?",
+      "captures": {
+        "1": {
+          "name": "keyword.other.alias.rbs"
+        },
+        "2": {
+          "name": "entity.name.function.rbs"
+        },
+        "3": {
+          "name": "entity.name.function.rbs"
         }
       }
     }
