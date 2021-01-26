@@ -143,13 +143,6 @@
       "include": "#brackets"
     },
     {
-      "include": "#return_type"
-    },
-    {
-      "match": "\\b(self|instance|bool|untyped|nil|top|bot|void|fail|boolish)\\b",
-      "name": "storage.type.rbs"
-    },
-    {
       "match": "\\b(public|private)\\b(?![?!])",
       "name": "storage.modifier.rbs"
     },
@@ -161,10 +154,10 @@
       "include": "#attributes"
     },
     {
-      "include": "#type"
+      "include": "#type_alias"
     },
     {
-      "include": "#alias"
+      "include": "#method_alias"
     },
     {
       "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?",
@@ -176,6 +169,9 @@
           "name": "entity.name.function.rbs"
         }
       }
+    },
+    {
+      "include": "#has_type"
     },
     {
       "include": "#comment"
@@ -388,25 +384,14 @@
       "name": "string.quoted.double.interpolated.rbs"
     },
     "comment": {
-      "begin": "(^[ \\t]+)?(?=#)",
+      "begin": "#",
       "beginCaptures": {
-        "1": {
-          "name": "punctuation.whitespace.comment.leading.rbs"
+        "0": {
+          "name": "punctuation.definition.comment.rbs"
         }
       },
-      "end": "(?!\\G)",
-      "patterns": [
-        {
-          "begin": "#",
-          "beginCaptures": {
-            "0": {
-              "name": "punctuation.definition.comment.rbs"
-            }
-          },
-          "end": "\\n",
-          "name": "comment.line.number-sign.rbs"
-        }
-      ]
+      "end": "(?=\\n)",
+      "name": "comment.line.number-sign.rbs"
     },
     "operators": {
       "patterns": [
@@ -421,15 +406,6 @@
         },
         {
           "include": "#rest_operator"
-        },
-        {
-          "include": "#arrow_operator"
-        },
-        {
-          "include": "#colon_operator"
-        },
-        {
-          "include": "#assignment_operator"
         }
       ]
     },
@@ -522,7 +498,7 @@
       }
     },
     "parameter_type": {
-      "match": "(?<![)\\]?\\w])\\s*(\\*\\*?|\\?)?((?:::)?\\b[A-Za-z_][\\w:]*)(\\?)?",
+      "match": "(?<![)\\]?\\w])\\s*(\\*\\*?|\\?)?((?:::)?[A-Za-z_][\\w:]*)(\\?)?",
       "captures": {
         "1": {
           "patterns": [
@@ -564,42 +540,67 @@
         }
       }
     },
-    "return_type": {
-      "match": "(?<=->)\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b)\\??",
-      "captures": {
-        "1": {
-          "patterns": [
-            {
-              "include": "#literals"
-            },
-            {
-              "include": "#type_or_type-alias"
-            },
-            {
-              "include": "#namespace_separator"
-            }
-          ]
-        }
-      }
-    },
     "attributes": {
-      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?(?:\\s*(:))?(?:\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b))?",
+      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?",
       "captures": {
         "1": {
           "name": "keyword.other.$1.rbs"
         },
         "2": {
           "name": "variable.other.member.rbs"
+        }
+      }
+    },
+    "type_alias": {
+      "patterns": [
+        {
+          "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?",
+          "captures": {
+            "1": {
+              "name": "keyword.other.type.rbs"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#literals"
+                },
+                {
+                  "include": "#namespace_separator"
+                },
+                {
+                  "include": "#type_or_type-alias"
+                }
+              ]
+            }
+          }
         },
-        "3": {
+        {
+          "begin": "(=)(?!\\s*:)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.operator.assignment.rbs"
+            }
+          },
+          "end": "(\\n)",
           "patterns": [
             {
-              "include": "#colon_operator"
-            }
-          ]
-        },
-        "4": {
-          "patterns": [
+              "include": "#parens"
+            },
+            {
+              "include": "#brackets"
+            },
+            {
+              "include": "#braces"
+            },
+            {
+              "include": "#union_operator"
+            },
+            {
+              "include": "#intersectoin_operator"
+            },
+            {
+              "include": "#optional_operator"
+            },
             {
               "include": "#literals"
             },
@@ -608,46 +609,15 @@
             },
             {
               "include": "#namespace_separator"
+            },
+            {
+              "include": "#comment"
             }
           ]
         }
-      }
+      ]
     },
-    "type": {
-      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(?:\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b))?",
-      "captures": {
-        "1": {
-          "name": "keyword.other.type.rbs"
-        },
-        "2": {
-          "patterns": [
-            {
-              "include": "#type_or_type-alias"
-            },
-            {
-              "include": "#namespace_separator"
-            }
-          ]
-        },
-        "3": {
-          "name": "keyword.operator.assignment.rbs"
-        },
-        "4": {
-          "patterns": [
-            {
-              "include": "#literals"
-            },
-            {
-              "include": "#type_or_type-alias"
-            },
-            {
-              "include": "#namespace_separator"
-            }
-          ]
-        }
-      }
-    },
-    "alias": {
+    "method_alias": {
       "match": "^\\s*\\b(alias)\\b(?![?!])(?:\\s+([^ ]+))?(?:\\s+([^ ]+))?",
       "captures": {
         "1": {
@@ -660,6 +630,50 @@
           "name": "entity.name.function.rbs"
         }
       }
+    },
+    "has_type": {
+      "begin": "(?<!:)(:)(?!:)|(->)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.operator.colon.rbs"
+        },
+        "2": {
+          "name": "keyword.operator.arrow.rbs"
+        }
+      },
+      "end": "(?=}|\\)|\\]|\\n)",
+      "patterns": [
+        {
+          "include": "#parens"
+        },
+        {
+          "include": "#brackets"
+        },
+        {
+          "include": "#braces"
+        },
+        {
+          "include": "#union_operator"
+        },
+        {
+          "include": "#intersectoin_operator"
+        },
+        {
+          "include": "#optional_operator"
+        },
+        {
+          "include": "#literals"
+        },
+        {
+          "include": "#type_or_type-alias"
+        },
+        {
+          "include": "#namespace_separator"
+        },
+        {
+          "include": "#comment"
+        }
+      ]
     }
   },
   "scopeName": "source.rbs"
