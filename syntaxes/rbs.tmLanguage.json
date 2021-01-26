@@ -170,7 +170,7 @@
       "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?",
       "captures": {
         "1": {
-          "name": "storage.type.function.rbs"
+          "name": "keyword.control.def.rbs"
         },
         "2": {
           "name": "entity.name.function.rbs"
@@ -583,7 +583,7 @@
       }
     },
     "attributes": {
-      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?(?:\\s*(:))?(.+?(?=#|$))?",
+      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?(?:\\s*(:))?(?:\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b))?",
       "captures": {
         "1": {
           "name": "keyword.other.$1.rbs"
@@ -601,21 +601,6 @@
         "4": {
           "patterns": [
             {
-              "include": "#union_operator"
-            },
-            {
-              "include": "#intersectoin_operator"
-            },
-            {
-              "include": "#parens"
-            },
-            {
-              "include": "#brackets"
-            },
-            {
-              "include": "#braces"
-            },
-            {
               "include": "#literals"
             },
             {
@@ -629,7 +614,7 @@
       }
     },
     "type": {
-      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(.+?(?=#|$))?",
+      "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?(?:\\s*(=))?(?:\\s*((?:::)?_?[A-Za-z_][\\w:]*\\b))?",
       "captures": {
         "1": {
           "name": "keyword.other.type.rbs"
@@ -649,21 +634,6 @@
         },
         "4": {
           "patterns": [
-            {
-              "include": "#union_operator"
-            },
-            {
-              "include": "#intersectoin_operator"
-            },
-            {
-              "include": "#parens"
-            },
-            {
-              "include": "#brackets"
-            },
-            {
-              "include": "#braces"
-            },
             {
               "include": "#literals"
             },
