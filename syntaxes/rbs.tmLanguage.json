@@ -526,7 +526,7 @@
           ]
         },
         "2": {
-          "name": "variable.arguments.rbs"
+          "name": "variable.parameter.rbs"
         },
         "3": {
           "name": "punctuation.definition.constant.rbs"
@@ -572,7 +572,7 @@
       "match": "(?<=[)\\]?\\w])\\s+([a-z_]\\w*)",
       "captures": {
         "1": {
-          "name": "variable.arguments.rbs"
+          "name": "variable.parameter.rbs"
         }
       }
     },
