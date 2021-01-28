@@ -122,6 +122,27 @@
       ]
     },
     {
+      "begin": "^(\\s*)([$@][A-Za-z_]\\w*|_?[A-Z]\\w*)\\s*(:)",
+      "beginCaptures": {
+        "2": {
+          "patterns": [
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "name": "keyword.operator.colon.rbs"
+        }
+      },
+      "end": "^(?!\\1\\s{2,})",
+      "patterns": [
+        {
+          "include": "#has_type"
+        }
+      ]
+    },
+    {
       "include": "#literals"
     },
     {
@@ -160,18 +181,24 @@
       "include": "#method_alias"
     },
     {
-      "match": "(?x)\r\n(?=def\\b) # an optimization to help Oniguruma fail fast\r\n(?<=^|\\s)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`?\r\n  )\r\n)?",
-      "captures": {
-        "1": {
+      "begin": "(?x)\r\n^(\\s*)(def)\\b # the def keyword\r\n(?:\r\n  \\s+ # an optional group of whitespace followed by\u2026\r\n  (\r\n    `?(?>[a-zA-Z_]\\w*(?>\\.|::))? # a method name prefix\r\n\t[^: ]+`? # method name\r\n  )\r\n)?",
+      "beginCaptures": {
+        "2": {
           "name": "keyword.control.def.rbs"
         },
-        "2": {
+        "3": {
           "name": "entity.name.function.rbs"
         }
-      }
-    },
-    {
-      "include": "#has_type"
+      },
+      "end": "^(?!\\1\\s{2,})",
+      "patterns": [
+        {
+          "include": "#colon_operator"
+        },
+        {
+          "include": "#has_type"
+        }
+      ]
     },
     {
       "include": "#comment"
@@ -406,6 +433,15 @@
         },
         {
           "include": "#rest_operator"
+        },
+        {
+          "include": "#colon_operator"
+        },
+        {
+          "include": "#arrow_operator"
+        },
+        {
+          "include": "#assignment_operator"
         }
       ]
     },
@@ -541,79 +577,49 @@
       }
     },
     "attributes": {
-      "match": "^\\s*\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?",
-      "captures": {
-        "1": {
-          "name": "keyword.other.$1.rbs"
-        },
+      "begin": "^(\\s*)\\b(attr_reader|attr_writer|attr_accessor)\\b(?![?!])(?:\\s+([A-Za-z_]\\w*))?",
+      "beginCaptures": {
         "2": {
+          "name": "keyword.other.$2.rbs"
+        },
+        "3": {
           "name": "variable.other.member.rbs"
         }
-      }
-    },
-    "type_alias": {
+      },
+      "end": "^(?!\\1\\s{2,})",
       "patterns": [
         {
-          "match": "^\\s*\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?",
-          "captures": {
-            "1": {
-              "name": "keyword.other.type.rbs"
-            },
-            "2": {
-              "patterns": [
-                {
-                  "include": "#literals"
-                },
-                {
-                  "include": "#namespace_separator"
-                },
-                {
-                  "include": "#type_or_type-alias"
-                }
-              ]
-            }
-          }
+          "include": "#colon_operator"
         },
         {
-          "begin": "(=)(?!\\s*:)",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.operator.assignment.rbs"
-            }
-          },
-          "end": "(\\n)",
+          "include": "#has_type"
+        }
+      ]
+    },
+    "type_alias": {
+      "begin": "^(\\s*)\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.type.rbs"
+        },
+        "3": {
           "patterns": [
-            {
-              "include": "#parens"
-            },
-            {
-              "include": "#brackets"
-            },
-            {
-              "include": "#braces"
-            },
-            {
-              "include": "#union_operator"
-            },
-            {
-              "include": "#intersectoin_operator"
-            },
-            {
-              "include": "#optional_operator"
-            },
-            {
-              "include": "#literals"
-            },
-            {
-              "include": "#type_or_type-alias"
-            },
             {
               "include": "#namespace_separator"
             },
             {
-              "include": "#comment"
+              "include": "#type_or_type-alias"
             }
           ]
+        }
+      },
+      "end": "^(?!\\1\\s{2,})",
+      "patterns": [
+        {
+          "include": "#assignment_operator"
+        },
+        {
+          "include": "#has_type"
         }
       ]
     },
@@ -632,16 +638,6 @@
       }
     },
     "has_type": {
-      "begin": "(?<!:)(:)(?!:)|(->)",
-      "beginCaptures": {
-        "1": {
-          "name": "keyword.operator.colon.rbs"
-        },
-        "2": {
-          "name": "keyword.operator.arrow.rbs"
-        }
-      },
-      "end": "(?=}|\\)|\\]|\\n)",
       "patterns": [
         {
           "include": "#parens"
