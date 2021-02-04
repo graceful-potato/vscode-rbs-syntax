@@ -292,10 +292,25 @@
       },
       "patterns": [
         {
-          "include": "#keyword_parameter"
+          "match": "[A-Za-z_]\\w*[!?]?(?=:)(?!::)",
+          "name": "constant.language.hashkey.rbs"
         },
         {
-          "include": "#parameter_type"
+          "begin": "(:)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.operator.colon.rbs"
+						}
+          },
+          "end": "(?=[,}])",
+					"patterns": [
+						{
+							"include": "#has_type"
+						}
+					]
+        },
+        {
+          "include": "#has_type"
         },
         {
           "include": "$self"
@@ -513,7 +528,7 @@
       ]
     },
     "keyword_parameter": {
-      "match": "(?<=^|\\s|,|\\(|{)\\s*(\\*\\*?|\\?)?([_a-zA-Z]\\w*[?!]?(:))",
+      "match": "(?<=^|\\s|,|\\(|{)\\s*(\\*\\*?|\\?)?([_a-zA-Z]\\w*[?!]?)(:)",
       "captures": {
         "1": {
           "patterns": [
@@ -529,7 +544,7 @@
           "name": "variable.parameter.rbs"
         },
         "3": {
-          "name": "punctuation.definition.constant.rbs"
+          "name": "keyword.operator.colon.rbs"
         }
       }
     },
