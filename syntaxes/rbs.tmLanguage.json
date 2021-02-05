@@ -296,6 +296,20 @@
           "name": "constant.language.hashkey.rbs"
         },
         {
+          "begin": "(->)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.operator.arrow.rbs"
+						}
+          },
+          "end": "(?=})",
+					"patterns": [
+						{
+							"include": "#has_type"
+						}
+					]
+        },
+        {
           "begin": "(:)",
 					"beginCaptures": {
 						"1": {
@@ -308,9 +322,6 @@
 							"include": "#has_type"
 						}
 					]
-        },
-        {
-          "include": "#has_type"
         },
         {
           "include": "$self"
