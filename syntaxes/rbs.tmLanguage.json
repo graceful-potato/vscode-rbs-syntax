@@ -21,7 +21,7 @@
       "name": "meta.class.rbs",
       "patterns": [
         {
-          "match": "\\G\\s+((?:(?:::)?[A-Z][\\w]*)+)(?:\\s*(<)\\s*((?:(?:::)?[A-Z][\\w]*)+))?",
+          "match": "\\G\\s+((?:(?:::)?[A-Z]\\w*)+)(?:\\s*(<)\\s*((?:(?:::)?[A-Z]\\w*)+))?",
           "captures": {
             "1": {
               "name": "entity.name.type.class.rbs",
@@ -68,7 +68,7 @@
       "name": "meta.module.rbs",
       "patterns": [
         {
-          "match": "\\G\\s+((?:::)?[A-Z][\\w:]*)",
+          "match": "\\G\\s+((?:(?:::)?[A-Z]\\w*)+)",
           "captures": {
             "1": {
               "name": "entity.name.type.module.rbs",
@@ -104,7 +104,7 @@
       "name": "meta.interface.rbs",
       "patterns": [
         {
-          "match": "\\G\\s+((?:::)?_?[A-Z][\\w:]*)",
+          "match": "\\G\\s+((?:(?:::)?_?[A-Z]\\w*)+)",
           "captures": {
             "1": {
               "name": "entity.name.type.interface.rbs",
@@ -122,7 +122,7 @@
       ]
     },
     {
-      "begin": "^(\\s*)([$@][A-Za-z_]\\w*|_?[A-Z]\\w*)\\s*(:)",
+      "begin": "^(\\s*)([$@][A-Za-z_]\\w*|(?:(?:::)?_?[A-Z]\\w*)+)\\s*(:)(?!:)",
       "beginCaptures": {
         "2": {
           "patterns": [
@@ -137,6 +137,9 @@
       },
       "end": "^(?!\\1\\s{2,})",
       "patterns": [
+        {
+          "include": "#singleton"
+        },
         {
           "include": "#has_type"
         }
@@ -168,8 +171,11 @@
       "name": "storage.modifier.rbs"
     },
     {
-      "match": "\\b(include|extend|prepend|singleton)\\b(?![?!])",
+      "match": "\\b(include|extend|prepend)\\b(?![?!])",
       "name": "keyword.other.$1.rbs"
+    },
+    {
+      "include": "#singleton"
     },
     {
       "include": "#attributes"
@@ -364,8 +370,25 @@
       "name": "variable.other.readwrite.global.rbs"
     },
     "constant": {
-      "match": "\\b_?[A-Z]\\w*\\b",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "match": "\\b_?[A-Z]\\w*\\b",
+              "name": "variable.other.constant.rbs"
+            },
+            {
+              "include": "#namespace_separator"
+            }
+          ]
+        }
+      },
+      "match": "((?:(?:::)?_?[A-Z]\\w*)+)",
       "name": "variable.other.constant.rbs"
+    },
+    "singleton": {
+      "match": "\\b(singleton)\\b(?![?!])",
+      "name": "keyword.other.singleton.rbs"
     },
     "literals": {
       "patterns": [
@@ -564,7 +587,7 @@
       }
     },
     "parameter_type": {
-      "match": "(?<![)\\]?\\w])\\s*(\\*\\*?|\\?)?((?:::)?[A-Za-z_][\\w:]*)(\\?)?",
+      "match": "(?<![)\\]?\\w])\\s*(\\*\\*?|\\?)?((?:(?:::)?[A-Za-z_]\\w*)+)(\\?)?",
       "captures": {
         "1": {
           "patterns": [
@@ -627,7 +650,7 @@
       ]
     },
     "type_alias": {
-      "begin": "^(\\s*)\\b(type)\\b(?![?!])(?:\\s+((?:::)?[A-Za-z_][\\w:]*))?",
+      "begin": "^(\\s*)\\b(type)\\b(?![?!])(?:\\s+((?:(?:::)?[A-Za-z_]\\w*)+))?",
       "beginCaptures": {
         "2": {
           "name": "keyword.other.type.rbs"
