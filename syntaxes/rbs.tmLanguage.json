@@ -255,6 +255,10 @@
           "name": "keyword.control.$1.rbs"
         },
         {
+          "match": "<",
+          "name": "punctuation.separator.upper-bound.rbs"
+        },
+        {
           "include": "#literals"
         },
         {
