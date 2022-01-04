@@ -1,0 +1,280 @@
+# SYNTAX TEST "source.rbs"
+
+  class Array[unchecked out Elem] < Object
+# ^^^^^ meta.class.rbs keyword.declaration.class.begin.rbs
+#       ^^^^^ meta.class.rbs entity.name.type.class.rbs variable.other.constant.rbs
+#            ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#             ^^^^^^^^^ meta.class.rbs keyword.control.unchecked.rbs
+#                       ^^^ meta.class.rbs keyword.control.out.rbs
+#                           ^^^^ meta.class.rbs storage.type.rbs
+#                               ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                                 ^ meta.class.rbs punctuation.separator.inheritance.rbs
+#                                   ^^^^^^ meta.class.rbs entity.other.inherited-class.rbs variable.other.constant.rbs
+    include Enumerable[Elem]
+#   ^^^^^^^ meta.class.rbs keyword.other.include.rbs
+#           ^^^^^^^^^^ meta.class.rbs variable.other.constant.rbs
+#                     ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                      ^^^^ meta.class.rbs storage.type.rbs
+#                          ^ meta.class.rbs punctuation.section.brackets.end.rbs
+
+    attr_reader contacts: Array[Email # comment
+#   ^^^^^^^^^^^ meta.class.rbs keyword.other.attr_reader.rbs
+#               ^^^^^^^^ meta.class.rbs variable.other.member.rbs
+#                       ^ meta.class.rbs keyword.operator.colon.rbs
+#                         ^^^^^ meta.class.rbs storage.type.rbs
+#                              ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                               ^^^^^ meta.class.rbs storage.type.rbs
+#                                     ^ meta.class.rbs comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#                                      ^^^^^^^^ meta.class.rbs comment.line.number-sign.rbs
+  # comment
+# ^ meta.class.rbs comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#  ^^^^^^^^ meta.class.rbs comment.line.number-sign.rbs
+    # comment
+#   ^ meta.class.rbs comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#    ^^^^^^^^ meta.class.rbs comment.line.number-sign.rbs
+                               | Phone] # comment
+#                              ^ meta.class.rbs keyword.operator.union.rbs
+#                                ^^^^^ meta.class.rbs storage.type.rbs
+#                                     ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                                       ^ meta.class.rbs comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#                                        ^^^^^^^^ meta.class.rbs comment.line.number-sign.rbs
+
+    def initialize: () -> void
+#   ^^^ meta.class.rbs keyword.control.def.rbs
+#       ^^^^^^^^^^ meta.class.rbs entity.name.function.rbs
+#                 ^ meta.class.rbs keyword.operator.colon.rbs
+#                   ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                    ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                      ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                         ^^^^ meta.class.rbs storage.type.rbs
+                | (::Array[Elem] ary) -> void
+#               ^ meta.class.rbs keyword.operator.union.rbs
+#                 ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                  ^^ meta.class.rbs punctuation.separator.namespace.rbs
+#                    ^^^^^ meta.class.rbs variable.other.constant.rbs
+#                         ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                          ^^^^ meta.class.rbs storage.type.rbs
+#                              ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                                ^^^ meta.class.rbs variable.parameter.rbs
+#                                   ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                                     ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                                        ^^^^ meta.class.rbs storage.type.rbs
+    # comment
+#   ^ meta.class.rbs comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#    ^^^^^^^^ meta.class.rbs comment.line.number-sign.rbs
+                | (int size, ?Elem val) -> void
+#               ^ meta.class.rbs keyword.operator.union.rbs
+#                 ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                  ^^^ meta.class.rbs storage.type.rbs
+#                      ^^^^ meta.class.rbs variable.parameter.rbs
+#                          ^ meta.class.rbs punctuation.separator.comma.rbs
+#                            ^ meta.class.rbs keyword.operator.optional.rbs
+#                             ^^^^ meta.class.rbs storage.type.rbs
+#                                  ^^^ meta.class.rbs variable.parameter.rbs
+#                                     ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                                       ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                                          ^^^^ meta.class.rbs storage.type.rbs
+                | (int size) { (::Integer index) -> Elem } -> void
+#               ^ meta.class.rbs keyword.operator.union.rbs
+#                 ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                  ^^^ meta.class.rbs storage.type.rbs
+#                      ^^^^ meta.class.rbs variable.parameter.rbs
+#                          ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                            ^ meta.class.rbs punctuation.section.braces.begin.rbs
+#                              ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                               ^^ meta.class.rbs punctuation.separator.namespace.rbs
+#                                 ^^^^^^^ meta.class.rbs variable.other.constant.rbs
+#                                         ^^^^^ meta.class.rbs storage.type.rbs
+#                                              ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                                                ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                                                   ^^^^ meta.class.rbs storage.type.rbs
+#                                                        ^ meta.class.rbs punctuation.section.braces.end.rbs
+#                                                          ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                                                             ^^^^ meta.class.rbs storage.type.rbs
+
+    def self.[]: [U] (*U) -> ::Array[U]
+#   ^^^ meta.class.rbs keyword.control.def.rbs
+#       ^^^^^^^ meta.class.rbs entity.name.function.rbs
+#              ^ meta.class.rbs keyword.operator.colon.rbs
+#                ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                 ^ meta.class.rbs storage.type.rbs
+#                  ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                    ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                     ^ meta.class.rbs keyword.operator.rest.rbs
+#                      ^ meta.class.rbs storage.type.rbs
+#                       ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                         ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                            ^^ meta.class.rbs punctuation.separator.namespace.rbs
+#                              ^^^^^ meta.class.rbs storage.type.rbs
+#                                   ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                                    ^ meta.class.rbs storage.type.rbs
+#                                     ^ meta.class.rbs punctuation.section.brackets.end.rbs
+
+    def self.try_convert: [U] (untyped) -> ::Array[U]?
+#   ^^^ meta.class.rbs keyword.control.def.rbs
+#       ^^^^^^^^^^^^^^^^ meta.class.rbs entity.name.function.rbs
+#                       ^ meta.class.rbs keyword.operator.colon.rbs
+#                         ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                          ^ meta.class.rbs storage.type.rbs
+#                           ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                             ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#                              ^^^^^^^ meta.class.rbs storage.type.rbs
+#                                     ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                                       ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                                          ^^ meta.class.rbs punctuation.separator.namespace.rbs
+#                                            ^^^^^ meta.class.rbs storage.type.rbs
+#                                                 ^ meta.class.rbs punctuation.section.brackets.begin.rbs
+#                                                  ^ meta.class.rbs storage.type.rbs
+#                                                   ^ meta.class.rbs punctuation.section.brackets.end.rbs
+#                                                    ^ meta.class.rbs keyword.operator.optional.rbs
+
+    public
+#   ^^^^^^ meta.class.rbs storage.modifier.rbs
+
+    def ==: (untyped other) -> bool
+#   ^^^ meta.class.rbs keyword.control.def.rbs
+#       ^^ meta.class.rbs entity.name.function.rbs
+#         ^ meta.class.rbs keyword.operator.colon.rbs
+#           ^ meta.class.rbs punctuation.section.parens.begin.rbs
+#            ^^^^^^^ meta.class.rbs storage.type.rbs
+#                    ^^^^^ meta.class.rbs variable.parameter.rbs
+#                         ^ meta.class.rbs punctuation.section.parens.end.rbs
+#                           ^^ meta.class.rbs keyword.operator.arrow.rbs
+#                              ^^^^ meta.class.rbs storage.type.rbs
+
+    def self.find_best_version: (Gem::Version? version, Array[Gem::Version] candidates) -> Gem::Version
+#   ^^^ keyword.control.def.rbs
+#       ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.rbs
+#                             ^ keyword.operator.colon.rbs
+#                               ^ punctuation.section.parens.begin.rbs
+#                                ^^^ storage.type.rbs
+#                                   ^^ punctuation.separator.namespace.rbs
+#                                     ^^^^^^^ storage.type.rbs
+#                                            ^ keyword.operator.optional.rbs
+#                                              ^^^^^^^ variable.parameter.rbs
+#                                                     ^ punctuation.separator.comma.rbs
+#                                                       ^^^^^ storage.type.rbs
+#                                                            ^ punctuation.section.brackets.begin.rbs
+#                                                             ^^^ storage.type.rbs
+#                                                                ^^ punctuation.separator.namespace.rbs
+#                                                                  ^^^^^^^ storage.type.rbs
+#                                                                         ^ punctuation.section.brackets.end.rbs
+#                                                                           ^^^^^^^^^^ variable.parameter.rbs
+#                                                                                     ^ punctuation.section.parens.end.rbs
+#                                                                                       ^^ keyword.operator.arrow.rbs
+#                                                                                          ^^^ storage.type.rbs
+#                                                                                             ^^ punctuation.separator.namespace.rbs
+#                                                                                               ^^^^^^^ storage.type.rbs
+  end
+# ^^^ meta.class.rbs keyword.control.end.rbs keyword.declaration.class.end.rbs
+
+  class PrettyPrint[T < _Output] < ParentClass
+# ^^^^^ keyword.declaration.class.begin.rbs
+#       ^^^^^^^^^^^ entity.name.type.class.rbs variable.other.constant.rbs
+#                  ^ punctuation.section.brackets.begin.rbs
+#                   ^ storage.type.rbs
+#                     ^ punctuation.separator.upper-bound.rbs
+#                       ^^^^^^^ storage.type.rbs
+#                              ^ punctuation.section.brackets.end.rbs
+#                                ^ punctuation.separator.inheritance.rbs
+#                                  ^^^^^^^^^^^ entity.other.inherited-class.rbs variable.other.constant.rbs
+    interface _Output
+#   ^^^^^^^^^ meta.class.rbs meta.interface.rbs keyword.declaration.interface.begin.rbs
+#            ^ meta.class.rbs meta.interface.rbs
+#             ^^^^^^^ meta.class.rbs meta.interface.rbs entity.name.type.interface.rbs variable.other.constant.rbs
+      def <<: (String) -> void
+#     ^^^ meta.class.rbs meta.interface.rbs keyword.control.def.rbs
+#        ^ meta.class.rbs meta.interface.rbs
+#         ^^ meta.class.rbs meta.interface.rbs entity.name.function.rbs
+#           ^ meta.class.rbs meta.interface.rbs keyword.operator.colon.rbs
+#            ^ meta.class.rbs meta.interface.rbs
+#             ^ meta.class.rbs meta.interface.rbs punctuation.section.parens.begin.rbs
+#              ^^^^^^ meta.class.rbs meta.interface.rbs storage.type.rbs
+#                    ^ meta.class.rbs meta.interface.rbs punctuation.section.parens.end.rbs
+#                     ^ meta.class.rbs meta.interface.rbs
+#                      ^^ meta.class.rbs meta.interface.rbs keyword.operator.arrow.rbs
+#                        ^ meta.class.rbs meta.interface.rbs
+#                         ^^^^ meta.class.rbs meta.interface.rbs storage.type.rbs
+    end
+#   ^^^ meta.class.rbs meta.interface.rbs keyword.control.end.rbs keyword.declaration.interface.end.rbs
+
+    attr_reader output: T
+#   ^^^^^^^^^^^ meta.class.rbs keyword.other.attr_reader.rbs
+#               ^^^^^^ meta.class.rbs variable.other.member.rbs
+#                     ^ meta.class.rbs keyword.operator.colon.rbs
+#                       ^ meta.class.rbs storage.type.rbs
+  end
+# ^^^ meta.class.rbs keyword.control.end.rbs keyword.declaration.class.end.rbs
+
+  class Test
+# ^^^^^ keyword.declaration.class.begin.rbs
+#       ^^^^ entity.name.type.class.rbs variable.other.constant.rbs
+    type t = String
+#   ^^^^ keyword.other.type.rbs
+#        ^ storage.type.rbs
+#          ^ keyword.operator.assignment.rbs
+#            ^^^^^^ storage.type.rbs
+
+    attr_reader field:
+#   ^^^^^^^^^^^ keyword.other.attr_reader.rbs
+#               ^^^^^ variable.other.member.rbs
+#                    ^ keyword.operator.colon.rbs
+  # comment 
+# ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#  ^^^^^^^^ comment.line.number-sign.rbs
+    # comment
+#   ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#    ^^^^^^^^ comment.line.number-sign.rbs
+      t # comment
+#     ^ storage.type.rbs
+#       ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#        ^^^^^^^^ comment.line.number-sign.rbs
+
+      type ::q = Integer # comment
+#     ^^^^ keyword.other.type.rbs
+#          ^^ punctuation.separator.namespace.rbs
+#            ^ storage.type.rbs
+#              ^ keyword.operator.assignment.rbs
+#                ^^^^^^^ storage.type.rbs
+#                        ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#                         ^^^^^^^^ comment.line.number-sign.rbs
+  # comment
+# ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#  ^^^^^^^^ comment.line.number-sign.rbs
+               | t # comment
+#              ^ keyword.operator.union.rbs
+#                ^ storage.type.rbs
+#                  ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#                   ^^^^^^^^ comment.line.number-sign.rbs
+               | FalseClass 
+#              ^ keyword.operator.union.rbs
+#                ^^^^^^^^^^ storage.type.rbs
+               | false 
+#              ^ keyword.operator.union.rbs
+#                ^^^^^ constant.language.boolean.rbs
+               | Hash[Symbol, t] | Array[t]
+#              ^ keyword.operator.union.rbs
+#                ^^^^ storage.type.rbs
+#                    ^ punctuation.section.brackets.begin.rbs
+#                     ^^^^^^ storage.type.rbs
+#                           ^ punctuation.separator.comma.rbs
+#                             ^ storage.type.rbs
+#                              ^ punctuation.section.brackets.end.rbs
+#                                ^ keyword.operator.union.rbs
+#                                  ^^^^^ storage.type.rbs
+#                                       ^ punctuation.section.brackets.begin.rbs
+#                                        ^ storage.type.rbs
+#                                         ^ punctuation.section.brackets.end.rbs
+  end
+# ^^^ keyword.control.end.rbs keyword.declaration.class.end.rbs
+
+  Mutex: singleton(Thread::Mutex)
+# ^^^^^ variable.other.constant.rbs
+#      ^ keyword.operator.colon.rbs
+#        ^^^^^^^^^ keyword.other.singleton.rbs
+#                 ^ punctuation.section.parens.begin.rbs
+#                  ^^^^^^ storage.type.rbs
+#                        ^^ punctuation.separator.namespace.rbs
+#                          ^^^^^ storage.type.rbs
+#                               ^ punctuation.section.parens.end.rbs
+
