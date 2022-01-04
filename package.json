@@ -37,5 +37,11 @@
                 "path": "./syntaxes/rbs.tmLanguage.json"
             }
         ]
+    },
+    "scripts": {
+        "test": "vscode-tmgrammar-test -s source.rbs -g syntaxes/rbs.tmLanguage.json -t \"test/**/*.rbs\""
+    },
+    "devDependencies": {
+        "vscode-tmgrammar-test": "^0.0.11"
     }
 }

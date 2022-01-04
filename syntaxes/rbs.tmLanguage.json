@@ -21,24 +21,29 @@
       "name": "meta.class.rbs",
       "patterns": [
         {
-          "match": "\\G\\s+((?:(?:::)?[A-Z]\\w*)+)(?:\\s*(<)\\s*((?:(?:::)?[A-Z]\\w*)+))?",
+          "match": "\\G\\s+((?:(?:::)?[A-Z]\\w*)+)",
           "captures": {
             "1": {
               "name": "entity.name.type.class.rbs",
               "patterns": [
                 {
-                  "include": "$self"
+                  "include": "#constant"
                 }
               ]
-            },
-            "2": {
+            }
+          }
+        },
+        {
+          "match": "(?:\\s*(<)\\s*((?:(?:::)?[A-Z]\\w*)+))",
+          "captures": {
+            "1": {
               "name": "punctuation.separator.inheritance.rbs"
             },
-            "3": {
+            "2": {
               "name": "entity.other.inherited-class.rbs",
               "patterns": [
                 {
-                  "include": "$self"
+                  "include": "#constant"
                 }
               ]
             }
@@ -74,7 +79,7 @@
               "name": "entity.name.type.module.rbs",
               "patterns": [
                 {
-                  "include": "$self"
+                  "include": "#constant"
                 }
               ]
             }
@@ -110,7 +115,7 @@
               "name": "entity.name.type.interface.rbs",
               "patterns": [
                 {
-                  "include": "$self"
+                  "include": "#constant"
                 }
               ]
             }
@@ -135,7 +140,7 @@
           "name": "keyword.operator.colon.rbs"
         }
       },
-      "end": "^(?!\\1\\s{2,})",
+      "end": "^(?!\\1\\s{2,})(?!\\s*#)",
       "patterns": [
         {
           "include": "#singleton"
@@ -196,7 +201,7 @@
           "name": "entity.name.function.rbs"
         }
       },
-      "end": "^(?!\\1\\s{2,})",
+      "end": "^(?!\\1\\s{2,})(?!\\s*#)",
       "patterns": [
         {
           "include": "#colon_operator"
@@ -284,6 +289,9 @@
         },
         {
           "include": "#braces"
+        },
+        {
+          "include": "#comment"
         }
       ]
     },
@@ -383,8 +391,7 @@
           ]
         }
       },
-      "match": "((?:(?:::)?_?[A-Z]\\w*)+)",
-      "name": "variable.other.constant.rbs"
+      "match": "((?:(?:::)?_?[A-Z]\\w*)+)"
     },
     "singleton": {
       "match": "\\b(singleton)\\b(?![?!])",
@@ -639,7 +646,7 @@
           "name": "variable.other.member.rbs"
         }
       },
-      "end": "^(?!\\1\\s{2,})",
+      "end": "^(?!\\1\\s{2,})(?!\\s*#)",
       "patterns": [
         {
           "include": "#colon_operator"
@@ -666,7 +673,7 @@
           ]
         }
       },
-      "end": "^(?!\\1\\s{2,})",
+      "end": "^(?!\\1\\s{2,})(?!\\s*#)",
       "patterns": [
         {
           "include": "#assignment_operator"

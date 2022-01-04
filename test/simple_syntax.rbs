@@ -1,0 +1,99 @@
+# SYNTAX TEST "source.rbs"
+
+module ChatApp
+#<------ meta.module.rbs keyword.declaration.module.begin.rbs
+#      ^^^^^^^ meta.module.rbs entity.name.type.module.rbs variable.other.constant.rbs
+  VERSION: String
+# ^^^^^^^ meta.module.rbs variable.other.constant.rbs
+#        ^ meta.module.rbs keyword.operator.colon.rbs
+#          ^^^^^^ meta.module.rbs storage.type.rbs
+
+  class User
+# ^^^^^ meta.module.rbs meta.class.rbs keyword.declaration.class.begin.rbs
+#       ^^^^ entity.name.type.class.rbs variable.other.constant.rbs
+    attr_reader login: String
+#   ^^^^^^^^^^^ keyword.other.attr_reader.rbs
+#               ^^^^^ variable.other.member.rbs
+#                    ^ keyword.operator.colon.rbs
+#                      ^^^^^^ storage.type.rbs
+    attr_reader email: String
+
+    def initialize: (login: String, email: String) -> void
+#   ^^^ keyword.control.def.rbs
+#       ^^^^^^^^^^ entity.name.function.rbs
+#                 ^ keyword.operator.colon.rbs
+#                   ^ punctuation.section.parens.begin.rbs
+#                    ^^^^^ variable.parameter.rbs
+#                         ^ keyword.operator.colon.rbs
+#                           ^^^^^^ storage.type.rbs
+#                                                ^ punctuation.section.parens.end.rbs
+#                                                  ^^ keyword.operator.arrow.rbs
+#                                                     ^^^^ storage.type.rbs
+  end
+# ^^^ meta.module.rbs meta.class.rbs keyword.control.end.rbs keyword.declaration.class.end.rbs
+
+  class Bot
+    attr_reader name: String
+    attr_reader email: String
+    attr_reader owner: User
+
+    def initialize: (name: String, owner: User) -> void
+  end
+
+  class Message
+    attr_reader id: String
+    attr_reader string: String
+    attr_reader from: User | Bot                     # `|` means union types: `#from` can be `User` or `Bot`
+#                          ^ keyword.operator.union.rbs
+#                                                    ^ comment.line.number-sign.rbs punctuation.definition.comment.rbs
+#                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.rbs
+    attr_reader reply_to: Message?                   # `?` means optional type: `#reply_to` can be `nil`
+
+    def initialize: (from: User | Bot, string: String) -> void
+#                               ^ meta.module.rbs meta.class.rbs keyword.operator.union.rbs
+
+    def reply: (from: User | Bot, string: String) -> Message
+  end
+
+  class Channel
+    attr_reader name: String
+    attr_reader messages: Array[Message]
+#                              ^ punctuation.section.brackets.begin.rbs
+#                               ^^^^^^^ storage.type.rbs
+#                                      ^ punctuation.section.brackets.end.rbs
+    attr_reader users: Array[User]
+    attr_reader bots: Array[Bot]
+
+    def initialize: (name: String) -> void
+
+    def each_member: () { (User | Bot) -> void } -> void  # `{` and `}` means block.
+#                    ^ punctuation.section.parens.begin.rbs
+#                     ^ punctuation.section.parens.end.rbs
+#                       ^ punctuation.section.braces.begin.rbs
+#                         ^ punctuation.section.parens.begin.rbs
+#                          ^^^^ storage.type.rbs
+#                               ^ keyword.operator.union.rbs
+#                                 ^^^ storage.type.rbs
+#                                    ^ punctuation.section.parens.end.rbs
+#                                      ^^ keyword.operator.arrow.rbs
+#                                         ^^^^ storage.type.rbs
+#                                              ^ punctuation.section.braces.end.rbs
+#                                                ^^ keyword.operator.arrow.rbs
+#                                                   ^^^^ storage.type.rbs
+                   | () -> Enumerator[User | Bot, void]   # Method can be overloaded.
+#                  ^ keyword.operator.union.rbs
+#                    ^ punctuation.section.parens.begin.rbs
+#                     ^ punctuation.section.parens.end.rbs
+#                       ^^ keyword.operator.arrow.rbs
+#                          ^^^^^^^^^^ storage.type.rbs
+#                                    ^ punctuation.section.brackets.begin.rbs
+#                                     ^^^^ storage.type.rbs
+#                                          ^ keyword.operator.union.rbs
+#                                            ^^^ storage.type.rbs
+#                                               ^ punctuation.separator.comma.rbs
+#                                                 ^^^^ storage.type.rbs
+#                                                     ^ punctuation.section.brackets.end.rbs
+  end
+end
+#<--- keyword.declaration.module.end.rbs
+
